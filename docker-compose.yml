@@ -23,9 +23,10 @@ services:
     networks:
       - main
     ports:
-      - 7235:80
+      - 7235:443
 
   postgres:
+
     image: postgres:latest
     container_name: my_postgres_db
     restart: always
@@ -37,6 +38,9 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+        - main
+        
 
 volumes:
   postgres_data:  

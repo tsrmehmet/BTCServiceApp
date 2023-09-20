@@ -22,7 +22,12 @@ namespace UI.Controllers
             DateTime? start = DateTime.Now.AddHours(-timeRageDay);
             DateTime? end = DateTime.Now;
 
-            HttpClient client = new();
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+
+            HttpClient client = new(httpClientHandler);
             HttpResponseMessage result = await client.GetAsync("https://bitcoinapi/api/btc/list?start=" + start.Value.ToString("yyyy.MM.dd HH:mm:ss") + "&end=" + end.Value.ToString("yyyy.MM.dd HH:mm:ss"));
             string response = await result.Content.ReadAsStringAsync();
             List<BitcoinModel> model = JsonConvert.DeserializeObject<List<BitcoinModel>>(response);

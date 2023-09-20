@@ -39,7 +39,11 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserModel model)
         {
-            using (HttpClient client = new())
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            using (HttpClient client = new(httpClientHandler))
             {
                 string jsonModel = JsonConvert.SerializeObject(model);
                 var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
@@ -91,7 +95,11 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserModel model)
         {
-            using (HttpClient client = new())
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            using (HttpClient client = new(httpClientHandler))
             {
                 string jsonModel = JsonConvert.SerializeObject(model);
                 var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
@@ -106,7 +114,11 @@ namespace UI.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            using (HttpClient client = new())
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            using (HttpClient client = new(httpClientHandler))
             {
                 HttpResponseMessage result = await client.GetAsync("https://bitcoinapi/api/user/detail");
                 var response = await result.Content.ReadAsStringAsync();
@@ -122,7 +134,11 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UserModel model)
         {
-            using (HttpClient client = new())
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            using (HttpClient client = new(httpClientHandler))
             {
                 string jsonModel = JsonConvert.SerializeObject(model);
                 var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
