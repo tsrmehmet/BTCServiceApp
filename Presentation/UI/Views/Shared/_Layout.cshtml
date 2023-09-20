@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewBag.Title</title>
+    <!-- Global stylesheets -->
+    <link href="~/assets/css/fonts.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/custom.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    @RenderSection("head", required: false)
+</head>
+<body class="navbar-top sidebar-xs">
+
+    <!-- Main navbar -->
+    <div class="navbar navbar-expand-md navbar-dark  fixed-top bg-theme"
+         style="background-image: url('/assets/images/Ust_Banner.png');
+         background-size: cover; background-position: left center; background-repeat: no-repeat; ">
+        <div class="navbar-brand d-flex align-items-center py-0 mr-lg-0">
+            <a href="@Url.Action("Info","BTC")" title="Bitcoin Gözlem" class="d-inline-block">
+                <img src="~/assets/images/bitcoin.webp" alt="">
+            </a>
+        </div>
+        <div class="d-md-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+                <i class="icon-tree5"></i>
+            </button>
+            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+                <i class="icon-paragraph-justify3"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-mobile">
+
+            <div class="navbar-brand d-flex align-items-center ml-auto">
+                <a href="#" class="d-inline-block navbar-brand-wisebuylogo">
+                    <img src="~/assets/images/bitcoin-logo.webp">
+                </a>
+            </div>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown dropdown-user">
+                    <a href="#" class="navbar-nav-link d-flex align-items-center" data-toggle="dropdown">
+                       <span class="font-weight-semibold"> Kullanıcı</span>
+                        <span class="png-icon png-icon-arrow-down ml-1"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right bg-theme mt-0">
+                        <a href="@Url.Action("Logout","User")" class="dropdown-item"><span class="png-icon png-icon-sign-out mr-2"></span>Çıkış Yap</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-dark bg-theme-800 sidebar-main sidebar-expand-md">
+
+            <!-- Sidebar mobile toggler -->
+            @* <div class="sidebar-mobile-toggler text-center bg-theme">
+                <a href="#" class="sidebar-mobile-main-toggle">
+                    <i class="icon-arrow-left8"></i>
+                </a>
+                Navigation
+                <a href="#" class="sidebar-mobile-expand">
+                    <i class="icon-screen-full"></i>
+                    <i class="icon-screen-normal"></i>
+                </a>
+            </div>
+            <!-- /sidebar mobile toggler -->
+            <!-- Sidebar content -->
+            <div class="sidebar-content">
+                <!-- Main navigation -->
+                <div class="card card-sidebar-mobile pl-2">
+                    <ul class="nav nav-sidebar" data-nav-type="accordion">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Info","btc")" title="Bitcoin Gözlem" class="nav-link">
+                                <i class="png-icon png-icon-suppliyerlist png-icon-md png-icon-navitem png-icon-xl"></i>
+                            </a>
+                        </li>
+                       @* <li class="nav-item">
+                            <a href="@Url.Action("List","User")" title="Kullanıcılar" class="nav-link">
+                                <i class="png-icon png-icon-anminlist png-icon-md png-icon-navitem png-icon-xl"></i>
+                            </a>
+                        </li>*@
+
+                        <!-- /main -->
+                    </ul>
+                </div>
+                <!-- /main navigation -->
+            </div>
+            <!-- /sidebar content -->
+        </div>
+        <!-- /main sidebar -->
+        <!-- Main content -->
+        <div class="content-wrapper mt-2">
+            @RenderSection("PageHeader", required: false)
+            <!-- Content area -->
+            <div class="content">
+                @RenderBody()
+            </div>
+            <!-- /content area -->
+            <!-- Footer -->
+            <div class="navbar navbar-expand-lg navbar-light">
+                <div class="text-center d-lg-none w-100">
+                    <button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-footer">
+                        <i class="icon-unfold mr-2"></i>
+                        Footer
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse" id="navbar-footer">
+                    <span class="navbar-text">
+                        &copy; Bitcoin Gözlem Servisi
+                    </span>
+
+                </div>
+            </div>
+            <!-- /footer -->
+
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+    <!-- Core JS files -->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/plugins/loaders/blockui.min.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/js/plugins/forms/validation/validate.min.js"></script>
+    <script src="~/assets/js/plugins/forms/validation/localization/messages_tr.js"></script>
+    <script src="~/assets/js/plugins/forms/inputs/inputmask.js"></script>
+    <script src="~/assets/js/plugins/notifications/sweet_alert.min.js"></script>
+
+
+    <script src="~/assets/js/plugins/pickers/pickadate/picker.js"></script>
+    <script src="~/assets/js/plugins/pickers/pickadate/picker.date.js"></script>
+
+    <script src="~/assets/js/bs-custom-file-input.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        });
+
+        function btnLoadingStart(id) {
+            var btn = $(id),
+                loadingIcon = "<i class='icon-spinner4 spinner mt-n1 mr-2'></i>",
+                loadingText = btn.data('loading-text');
+            btn.html(loadingIcon + loadingText).addClass('disabled').prop("disabled", true);
+        }
+
+        function btnLoadingStop(id) {
+            var btn = $(id),
+                initialText = btn.data('initial-text');
+            setTimeout(function () {
+                btn.html(initialText).removeClass('disabled').prop("disabled", false);
+            }, 300)
+        }
+
+    </script>
+
+
+    <!-- /core JS files -->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

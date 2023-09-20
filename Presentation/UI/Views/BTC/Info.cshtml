@@ -1,0 +1,136 @@
+﻿@using Newtonsoft.Json;
+@model BitcoinModelResponse
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Line</title>
+</head>
+<body>
+    <select id="timeRange">
+        <option value="3">Son 3 Saat</option>
+        <option value="6">Son 6 Saat</option>
+        <option value="24">Son 1 Gün</option>
+        <option value="148">Son 1 Hafta</option>
+        <!-- Diğer zaman aralıkları -->
+    </select>
+    <div class="box-body">
+
+        <div class="chart-container">
+            <canvas id="chart" style="width:100%; height:500px"></canvas>
+        </div>
+    </div>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+    // Seçilen zaman aralığı değiştiğinde grafiği güncelleyin
+    $(function () {
+        var chartName = "chart";
+        var ctx = document.getElementById(chartName).getContext('2d');
+        var myChart;
+        var XLabels
+        var YValues
+        function updateChart() {
+
+            var data = {
+                labels: XLabels,
+                datasets: [{
+                    label: "BitCoin Chart",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: YValues
+            }]
+            };
+
+            var options = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+            // Grafiği güncelleyin
+            if (myChart) {
+                myChart.destroy(); // Önceki grafiği temizleyin
+            }
+            myChart = new Chart(ctx, {
+                options: options,
+                data: data,
+                type: 'line'
+
+            });
+
+        }
+        $('#timeRange').change(function () {
+            var selectedTimeRange = $(this).val();
+            CallService(selectedTimeRange);
+        });
+
+        function CallService(selectedTimeRange) {
+            $.ajax({
+                url: '/BTC/InfoForAjaxCall', // Verileri alacak API veya Action'ın URL'sini belirtin
+                method: 'GET',
+                data: { timeRageDay: selectedTimeRange },
+                success: function (response) {
+                    // AJAX isteği başarılı olduğunda yeni verileri kullanarak grafiği güncelleyin
+                    XLabels = response.labelValues;
+                    YValues = response.priceValues
+                    updateChart();
+                },
+                error: function (error) {
+                    console.log('AJAX isteği başarısız oldu: ' + error);
+                }
+            });
+        }
+        CallService(3);
+    });
+</script>  

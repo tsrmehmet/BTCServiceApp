@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  ui:
+    image: ${DOCKER_REGISTRY-}ui
+    build:
+      context: .
+      dockerfile: Presentation/UI/Dockerfile
+    links:
+       - bitcoinapi
+    networks:
+      - main
+    ports:
+      - 7198:7198
+
+  bitcoinapi:
+    image: ${DOCKER_REGISTRY-}bitcoinapi
+    build:
+      context: .
+      dockerfile: Api/BitcoinApi/Dockerfile
+    links:
+       - postgres
+    networks:
+      - main
+    ports:
+      - 7235:80
+
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: BitcoinApi
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:  
+
+networks:
+  main:
+    driver: bridge

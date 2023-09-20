@@ -1,0 +1,50 @@
+﻿@model UserModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "_LayoutLogin";
+}
+
+
+<div class="content d-flex justify-content-center align-items-center pt-0">
+
+    <!-- Login form -->
+    <form class="login-form" asp-controller="User" asp-action="Login" method="post">
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <div class="mb-4 w-25 mx-auto">
+                        <img src="~/assets/images/logo/İyi_Parti_logo.png" class="img-fluid" alt="">
+                    </div>
+                    <h5 class="mb-0">Giriş Yap</h5>
+                    <span class="d-block text-muted">Hesabınıza erişebilmek için oturum açmalısınız</span>
+                </div>
+
+                <div class="form-group form-group-feedback form-group-feedback-left">
+                    <input type="email" class="form-control" asp-for="Email" placeholder="E-posta" />
+                    <div class="form-control-feedback">
+                        <i class="icon-user text-muted"></i>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-feedback form-group-feedback-left">
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Şifre" />
+                    <div class="form-control-feedback">
+                        <i class="icon-lock2 text-muted"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Giriş Yap<i class="icon-circle-right2 ml-2"></i></button>
+                </div>
+
+                <div class="text-center mb-3">
+                    <span class="d-block text-muted">Hesabınız yok mu?</span><a asp-controller="User" asp-action="Create">Kayıt Ol</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <!-- /login form -->
+
+</div>
+

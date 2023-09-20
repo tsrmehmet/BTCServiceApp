@@ -1,0 +1,697 @@
+﻿
+#grafik-canvas {
+    width: 800px; /* Genişlik */
+    height: 400px; /* Yükseklik */
+}
+.card-tabs-highlight {
+    border-top: 0;
+}
+
+    .card-tabs-highlight .nav-tabs-highlight {
+        margin-left: -1px;
+    }
+
+.fs-12 {
+    font-size: 12px;
+}
+
+
+.custom-file-input-content .file-drop-zone {
+    padding: 0;
+}
+
+.custom-file-input-content .file-preview {
+    margin-bottom: 10px;
+    display: inline-block;
+    width: auto;
+}
+
+.custom-file-input-content .file-default-preview {
+    margin: 5px;
+}
+
+.custom-file-input-content .file-input {
+    display: inline-block;
+}
+
+.custom-file-input-content .file-preview .file-preview-frame {
+    margin: 5px;
+    border-radius: 0;
+    background-color: transparent;
+    border: 0;
+}
+
+.custom-file-input-content .file-default-preview img,
+.custom-file-input-content .file-preview-frame .kv-file-content {
+    height: 90px;
+    width: auto;
+}
+
+.custom-file-input-content .card-body .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.bg-iyi {
+    background-color: #4caee5;
+}
+
+.plupload_scroll .plupload_filelist {
+    height: 150px;
+}
+
+.navbar-brand img {
+    height: 2.2rem;
+}
+
+.navbar-brand-wisebuylogo img {
+    height: 1.8rem;
+}
+
+.fc-day-grid-event {
+    font-size: 12px;
+}
+
+.type-detail {
+    background: transparent;
+    color: #333 !important;
+    border: 0;
+    position: relative;
+    padding-left: 10px;
+}
+
+    .type-detail::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #4caee5;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -3px;
+    }
+
+.type-task {
+    background: transparent;
+    color: #535353 !important;
+    border-color: #535353;
+    position: relative;
+    padding-left: 10px;
+}
+
+.type-parent {
+    background: transparent;
+    color: #039be5 !important;
+    border-color: #039be5;
+    position: relative;
+    padding-left: 10px;
+}
+
+
+.card-uploader {
+    border: 2px dashed #ddd;
+}
+
+.uploader-browse {
+    border: 2px dashed #ddd;
+    cursor: pointer;
+    text-align: center;
+    font-size: 30px;
+    padding: 25px;
+    color: #535353;
+}
+
+td.dt-body-nowrap {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-img-actions-overlay {
+    background-color: rgba(0,0,0,.4) !important;
+}
+
+.bg-theme {
+    background-color: #10277a !important;
+}
+
+.bg-theme-800 {
+    background-color: #162767 !important;
+}
+
+.bg-btn {
+    background: rgb(206,125,55);
+    background: linear-gradient(180deg, rgba(206,125,55,1) 49%, rgba(192,105,46,1) 51%);
+}
+
+.custom-cb label {
+    padding-left: 0.875rem;
+}
+
+.custom-cb .form-check-input {
+    margin-left: -0.45rem;
+}
+
+.rounded-10 {
+    border-radius: 10px !important;
+}
+
+.png-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+    .png-icon:before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        display: block;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+    }
+
+.png-icon-md:before {
+    width: 20px;
+    height: 20px;
+}
+
+.png-icon-xl:before {
+    width: 30px;
+    height: 30px;
+}
+
+.png-icon-navitem {
+    margin: -1px 14px 0 0 !important;
+}
+
+.png-icon.png-icon-sign-out:before {
+    background-image: url(../images/icons/sign-out.png);
+}
+
+.png-icon.png-icon-arrow-down:before {
+    background-image: url(../images/icons/arrow-down.png);
+}
+
+.png-icon.png-icon-hamburger:before {
+    background-image: url(../images/icons/hamburger.png);
+}
+
+.png-icon.png-icon-users:before {
+    background-image: url(../images/icons/wiesbuy-contacts-v3.png);
+}
+
+.png-icon.png-icon-contactlist:before {
+    background-image: url(../images/icons/wiesbuy-contactlist-v3.png);
+}
+
+.png-icon.png-icon-ekstre:before {
+    background-image: url(../images/icons/hesap-ekstre.png);
+}
+
+.png-icon.png-icon-mutabakat:before {
+    background-image: url(../images/icons/hesap-mutabakat.png);
+}
+
+.png-icon.png-icon-contact:before {
+    background-image: url(../images/icons/contact.png);
+}
+
+.png-icon.png-icon-meeting:before {
+    background-image: url(../images/icons/wiesbuy-meetings-v3.png);
+}
+
+.png-icon.png-icon-anminlist:before {
+    background-image: url(../images/icons/anminlist.png);
+}
+
+.png-icon.png-icon-addressbook:before {
+    background-image: url(../images/icons/addressbook-ico.png);
+}
+
+.png-icon.png-icon-suppliyerlist:before {
+    background-image: url(../images/icons/suppliyers-v3.png);
+}
+
+.dataTables_paginate .paginate_button {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dataTables_length {
+    float: left !important;
+    margin-right: 20px;
+}
+
+.select2-selection--multiple .select2-search--inline:first-child .select2-search__field {
+    padding-left: 0 !important;
+    margin-left: 0.75rem !important;
+}
+
+.dataTable tbody > tr.selected, .dataTable tbody > tr > .selected {
+    background-color: #e8f5e9;
+}
+
+.row-green-highligt {
+    background-color: #d4dfc7;
+}
+
+.row-danger-highligt {
+    background-color: #f5cece;
+}
+
+@media (min-width: 280px) and (max-width: 991px) {
+    .wisebuy-welcome-background {
+        background: url('/assets/images/Wellcome_v3.jpg') no-repeat center center fixed;
+        background-size: cover;
+        background-position-y: bottom;
+    }
+
+    .wisebuy-background {
+        background-image: url('/assets/images/Wellcome_v2.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: 100%;
+        min-width: 40em;
+        min-height: 40em;
+        margin: auto;
+    }
+
+    .wisebuy-logo-v2 {
+        width: 45%;
+    }
+
+    .welcome-h3 {
+        color: #002d74;
+        width: 100%;
+        font-size: revert
+    }
+
+    .welcome-mt-4 {
+        margin-top: 1.875rem !important;
+    }
+
+    .index_img_bacround {
+        width: 50%;
+        height: 80%;
+    }
+
+    .index_div_v1 {
+        /* position: relative;
+        left: -39%;
+        top: -14%*/
+        position: absolute;
+        left: 35%;
+        top: 10%;
+        z-index: 11;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_div_v2 {
+        /*position: relative;
+        left: -50%;
+        top: 20%*/
+        position: absolute;
+        left: 58%;
+        top: 15%;
+        z-index: 12;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_div_v3 {
+        /* position: relative;
+        left: -52%;
+        top: -11%*/
+        position: absolute;
+        left: 43%;
+        top: 38%;
+        z-index: 13;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_img_btn_v1 {
+        /*border: 1px solid #ddd;*/
+        border-radius: 4px;
+        padding: 5px;
+        width: 55%;
+    }
+
+    .index_flex {
+        /*width: 85%;
+        height: 85%;
+        font-size: 30px;
+        text-align: center;*/
+        position: absolute;
+        /*left: -90px;*/
+        top: 15%;
+        z-index: 10;
+        width: 600px;
+        height: 50%;
+    }
+
+    .wisebuy-card-1 {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    .wisebuy-welcome-background {
+        background: url('/assets/images/Wellcome_v3.jpg') no-repeat center center fixed;
+        background-size: cover;
+        background-position-y: bottom;
+    }
+
+    .wisebuy-background {
+        background: url('/assets/images/Wellcome_v2.jpg') no-repeat center center fixed;
+        background-size: cover;
+        background-position-y: bottom;
+    }
+
+    .wisebuy-logo-v2 {
+        width: 35%;
+    }
+
+    .welcome-h3 {
+        color: #002d74;
+        width: 100%;
+        font-size: large;
+    }
+
+    .wisebuy-card-1 {
+        display: none;
+    }
+}
+
+
+@media (min-width: 992px) and (max-width: 1024px) {
+
+    .index_img_bacround {
+        width: 50%;
+        height: 80%;
+    }
+
+    .index_div_v1 {
+        /* position: relative;
+        left: -39%;
+        top: -14%*/
+        position: absolute;
+        left: 35%;
+        top: 10%;
+        z-index: 11;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_div_v2 {
+        /*position: relative;
+        left: -50%;
+        top: 20%*/
+        position: absolute;
+        left: 57%;
+        top: 15%;
+        z-index: 12;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_div_v3 {
+        /* position: relative;
+        left: -52%;
+        top: -11%*/
+        position: absolute;
+        left: 43%;
+        top: 39%;
+        z-index: 13;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_img_btn_v1 {
+        /*border: 1px solid #ddd;*/
+        border-radius: 4px;
+        padding: 5px;
+        width: 55%;
+    }
+
+    .index_flex {
+        /*width: 85%;
+        height: 85%;
+        font-size: 30px;
+        text-align: center;*/
+        position: absolute;
+        /*left: 0px;*/
+        top: 15%;
+        z-index: 10;
+        width: 60%;
+        height: 50%;
+    }
+
+    .wisebuy-card-1 {
+        display: none;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 4096px) {
+
+    .index_img_bacround {
+        width: 50%;
+        height: 80%;
+    }
+
+    .index_div_v1 {
+        /* position: relative;
+        left: -39%;
+        top: -14%*/
+        position: absolute;
+        left: 35%;
+        top: 18%;
+        z-index: 11;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_div_v2 {
+        /*position: relative;
+        left: -50%;
+        top: 20%*/
+        position: absolute;
+        left: 57%;
+        top: 25%;
+        z-index: 12;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_div_v3 {
+        /* position: relative;
+        left: -52%;
+        top: -11%*/
+        position: absolute;
+        left: 43%;
+        top: 65%;
+        z-index: 13;
+        width: 20%;
+        height: auto;
+    }
+
+    .index_img_btn_v1 {
+        /*border: 1px solid #ddd;*/
+        border-radius: 4px;
+        padding: 5px;
+        width: 55%;
+    }
+
+    .index_flex {
+        /*width: 85%;
+        height: 85%;
+        font-size: 30px;
+        text-align: center;*/
+        position: absolute;
+        /*left: 0px;*/
+        top: 15%;
+        z-index: 10;
+        width: 60%;
+        height: 50%;
+    }
+
+    .wisebuy-card-1 {
+        display: none;
+    }
+}
+
+@media (min-width:1450px) {
+    .wisebuy-card-1 {
+        display: block;
+    }
+}
+
+
+.index_img_btn_v1:hover {
+    /*box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);*/
+}
+
+.wisebuy-h5-header1 {
+    color: #ce7d3a;
+}
+
+.wisebuy-h5-header2 {
+    color: #002d74;
+}
+
+.wisebuy-h5-header3 {
+    color: #002d74;
+    resize: both;
+}
+
+.wisebuy-h5-header4 {
+    color: #002d74;
+    font-size: .8625rem;
+}
+
+.wisebuy-h5-header5 {
+    color: #ce7d3a;
+    font-size: .8625rem;
+}
+
+.wisebuy-h5-header6 {
+    color: #002d74;
+    font-size: x-large;
+}
+
+.wisebuy-h6-header1 {
+    color: #ce7d3a;
+    font-size: large;
+}
+
+.btn-submit {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/placeholders/backround-button.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 50px;
+    border: none;
+}
+
+.btn-fileupload {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/fileupload.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.btn-addnew {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/addnew.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.btn-addnew-contact {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/addnew_contact.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.btn-edit-contact {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/edit_contact.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+
+.btn-delete {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/delete.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.btn-edit {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/edit.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.btn-imageupload {
+    font-weight: 500;
+    background-color: transparent;
+    background-image: url(' /assets/images/icons/edit.png');
+    background-size: 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+
+.btn-primary:hover, .btn-primary:active {
+    background-color: transparent;
+    border: none;
+    color: #002d74;
+}
+
+.wisebuy-table-tr {
+    background-color: rgba(0,0,0,.02);
+}
+
+.image-container {
+    width: 400px;
+    overflow: initial;
+}
+
+#zoom-image {
+    width: 100%;
+    transition: transform 0.9s;
+}
+
+.wisebuy-multiline-label {
+    display: flex;
+    align-items: center;
+}
+
+.wisebuy-multiline-text {
+    display: inline-block;
+    margin-left: 10px; /* İsteğe bağlı boşluk ayarı */
+}
