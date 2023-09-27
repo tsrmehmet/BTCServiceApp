@@ -71,7 +71,7 @@
                     ],
                     borderWidth: 1,
                     data: YValues
-            }]
+                }]
             };
 
             var options = {
@@ -122,11 +122,15 @@
                 data: { timeRageDay: selectedTimeRange },
                 success: function (response) {
                     // AJAX isteği başarılı olduğunda yeni verileri kullanarak grafiği güncelleyin
+
                     XLabels = response.labelValues;
-                    YValues = response.priceValues
+                    YValues = response.priceValues;
                     updateChart();
                 },
-                error: function (error) {
+                error: function (xhr, status, error) {
+                    if (xhr.statuscode == 401) {
+                        window.location.href = "/user/login";
+                    }
                     console.log('AJAX isteği başarısız oldu: ' + error);
                 }
             });

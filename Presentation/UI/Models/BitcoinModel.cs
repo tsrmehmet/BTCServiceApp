@@ -1,4 +1,6 @@
-﻿namespace UI.Models
+﻿using System.Net;
+
+namespace UI.Models
 {
     public class BitcoinModel : BaseModel
     {
@@ -11,5 +13,7 @@
         public  List<double?> PriceValues { get; set; }
 
         public List<string> LabelValues { get; set; }
+
+        public HttpStatusCode StatusCode { get; set; }
     }
 }

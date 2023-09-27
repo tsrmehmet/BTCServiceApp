@@ -25,7 +25,12 @@ builder.Services.AddMvcCore(options =>
     options.Filters.Add(new AuthorizeFilter(policy));
 }).AddXmlSerializerFormatters();
 // Only authenticated users can access application.
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(120); // Oturumun zaman aþýmýna uðrama süresi.
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 
@@ -49,7 +54,7 @@ var cookiePolicyOptions = new CookiePolicyOptions
 };
 app.UseCookiePolicy(cookiePolicyOptions);
 //Cookie policy options
-
+app.UseSession();
 app.UseAuthentication();
 
 app.UseRouting();

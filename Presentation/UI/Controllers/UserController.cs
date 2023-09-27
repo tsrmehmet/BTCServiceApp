@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Nodes;
 using UI.Models;
 
 namespace UI.Controllers
@@ -67,9 +72,33 @@ namespace UI.Controllers
             };
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
+            await AuthenticationForApiCall(model);
+
             return RedirectToAction("Info", "Btc");
         }
 
+
+        #endregion
+
+        #region Authenticate
+        private async Task AuthenticationForApiCall(UserModel model)
+        {
+
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+
+            using (HttpClient client = new(httpClientHandler))
+            {
+                string jsonModel = JsonConvert.SerializeObject(model);
+                var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
+                HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/auth/authenticate", content);
+                var request = await result.Content.ReadAsStringAsync();
+                AuthResponse? tokenResponse = JsonConvert.DeserializeObject<AuthResponse>(request);
+                HttpContext.Session.SetString("JWTToken", tokenResponse.token);
+            }
+        }
         #endregion
 
         #region Logout

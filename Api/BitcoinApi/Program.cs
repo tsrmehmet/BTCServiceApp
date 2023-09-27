@@ -1,3 +1,4 @@
+using Autofac.Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,7 @@ builder.Services.AddRepoServices();
 builder.Services.AddDbContextService();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<BTCService>();
+builder.Services.AddSingleton<TokenService>();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
