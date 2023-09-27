@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BitcoinApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
