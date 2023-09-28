@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Models;
 using Domain.Entities;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +22,19 @@ namespace BitcoinApi.Controllers
         }
 
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] User userParam)
+        public IActionResult Authenticate([FromBody] UserModel model)
         {
-            User user = _unitOfWork.UserRepository.GetUserByEmailAsync(userParam.Email).Result;
+            User user = _unitOfWork.UserRepository.GetUserByEmailAsync(model.Email).Result;
             if (user is null)
                 return BadRequest(new { message = "Kullanıcı bulunamadı!" });
-            string savedPassword = _unitOfWork.EncryptionService.CreatePasswordHash(userParam.Password, user?.PasswordSalt);
+            string savedPassword = _unitOfWork.EncryptionService.CreatePasswordHash(model.Password, user?.PasswordSalt);
             if (!user.Password.Equals(savedPassword))
                 return BadRequest(new { message = "Kullanıcı adı veya şifre hatalı" });
           
-            // JWT token oluşturma
+            //Create JWT token
             var token = _tokenService.GenerateAccessToken(new List<Claim>
         {
-            new Claim(ClaimTypes.Email, userParam.Email)
+            new Claim(ClaimTypes.Email, model.Email)
         });
 
             return Ok(new { token });

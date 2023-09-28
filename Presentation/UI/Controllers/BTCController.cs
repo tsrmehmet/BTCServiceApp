@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using UI.Models;
@@ -47,6 +48,7 @@ namespace UI.Controllers
             if (result.StatusCode == HttpStatusCode.Unauthorized)
             {
                 responseModel.StatusCode = HttpStatusCode.Unauthorized;
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return responseModel;
             }
 

@@ -89,15 +89,13 @@ namespace UI.Controllers
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
             };
 
-            using (HttpClient client = new(httpClientHandler))
-            {
-                string jsonModel = JsonConvert.SerializeObject(model);
-                var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
-                HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/auth/authenticate", content);
-                var request = await result.Content.ReadAsStringAsync();
-                AuthResponse? tokenResponse = JsonConvert.DeserializeObject<AuthResponse>(request);
-                HttpContext.Session.SetString("JWTToken", tokenResponse.token);
-            }
+            using HttpClient client = new(httpClientHandler);
+            string jsonModel = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/auth/authenticate", content);
+            var request = await result.Content.ReadAsStringAsync();
+            AuthResponse? tokenResponse = JsonConvert.DeserializeObject<AuthResponse>(request);
+            HttpContext.Session.SetString("JWTToken", tokenResponse.token);
         }
         #endregion
 

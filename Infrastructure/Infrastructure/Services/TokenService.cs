@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -21,10 +17,10 @@ namespace Infrastructure.Services
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var jwtSettings = _configuration.GetSection("JwtSetting");
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings["Key"]));
+            IConfigurationSection jwtSettings = _configuration.GetSection("JwtSetting");
+            SymmetricSecurityKey key = new (Encoding.ASCII.GetBytes(jwtSettings["Key"]));
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            SecurityTokenDescriptor tokenDescriptor = new ()
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings["DurationInMinutes"])),
@@ -33,13 +29,11 @@ namespace Infrastructure.Services
                 Audience = jwtSettings["Audience"],
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            JwtSecurityTokenHandler tokenHandler = new();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
         }
-
-        // Refresh token ve diğer özellikleri eklemek için bu servisi genişletebilirsiniz.
     }
 
 }
