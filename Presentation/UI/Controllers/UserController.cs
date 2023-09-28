@@ -1,32 +1,34 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
-using System.Reflection;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json.Nodes;
 using UI.Models;
 
 namespace UI.Controllers
 {
     public class UserController : Controller
     {
-        #region Fields
+        #region Utilities
 
+        #region AuthenticationForApiCall
 
+        private async Task AuthenticationForApiCall(UserModel model)
+        {
+            HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
+            using HttpClient client = new(httpClientHandler);
+            string jsonModel = JsonConvert.SerializeObject(model);
+            StringContent content = new(jsonModel, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/auth/authenticate", content);
+            string request = await result.Content.ReadAsStringAsync();
+            AuthResponse tokenResponse = JsonConvert.DeserializeObject<AuthResponse>(request);
+            HttpContext.Session.SetString("JWTToken", tokenResponse.token);
+        }
 
         #endregion
-
-        #region Constructor
-
-        public UserController()
-        {
-        }
 
         #endregion
 
@@ -44,25 +46,17 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserModel model)
         {
-            var httpClientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };
-            using (HttpClient client = new(httpClientHandler))
-            {
-                string jsonModel = JsonConvert.SerializeObject(model);
-                var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
-                HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/user/login", content);
-                var request = await result.Content.ReadAsStringAsync();
-                bool? response = JsonConvert.DeserializeObject<bool>(request);
+            HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
+            using HttpClient client = new(httpClientHandler);
+            string jsonModel = JsonConvert.SerializeObject(model);
+            StringContent content = new(jsonModel, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/user/login", content);
+            string request = await result.Content.ReadAsStringAsync();
+            bool response = JsonConvert.DeserializeObject<bool>(request);
+            if (response == false)
+                return RedirectToAction("Login");
 
-                if (response == false)
-                    return RedirectToAction("Login");
-            }
-            List<Claim> claims = new()
-            {
-                new Claim(ClaimTypes.Email, model.Email)
-            };
+            List<Claim> claims = new() { new Claim(ClaimTypes.Email, model.Email) };
             ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             AuthenticationProperties authProperties = new()
             {
@@ -77,26 +71,6 @@ namespace UI.Controllers
             return RedirectToAction("Info", "Btc");
         }
 
-
-        #endregion
-
-        #region Authenticate
-        private async Task AuthenticationForApiCall(UserModel model)
-        {
-
-            var httpClientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };
-
-            using HttpClient client = new(httpClientHandler);
-            string jsonModel = JsonConvert.SerializeObject(model);
-            var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
-            HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/auth/authenticate", content);
-            var request = await result.Content.ReadAsStringAsync();
-            AuthResponse? tokenResponse = JsonConvert.DeserializeObject<AuthResponse>(request);
-            HttpContext.Session.SetString("JWTToken", tokenResponse.token);
-        }
         #endregion
 
         #region Logout
@@ -122,16 +96,11 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserModel model)
         {
-            var httpClientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };
-            using (HttpClient client = new(httpClientHandler))
-            {
-                string jsonModel = JsonConvert.SerializeObject(model);
-                var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
-                HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/user/create", content);
-            }
+            HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
+            using HttpClient client = new(httpClientHandler);
+            string jsonModel = JsonConvert.SerializeObject(model);
+            StringContent content = new(jsonModel, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/user/create", content);
             return RedirectToAction("Login");
         }
 
@@ -139,19 +108,15 @@ namespace UI.Controllers
 
         #region Detail
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> Detail()
         {
-            var httpClientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };
-            using (HttpClient client = new(httpClientHandler))
-            {
-                HttpResponseMessage result = await client.GetAsync("https://bitcoinapi/api/user/detail");
-                var response = await result.Content.ReadAsStringAsync();
-                UserModel? user = JsonConvert.DeserializeObject<UserModel>(response);
-                return View(user);
-            }
+            HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
+            using HttpClient client = new(httpClientHandler);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("JWTToken"));
+            HttpResponseMessage result = await client.GetAsync("https://bitcoinapi/api/user/detail");
+            string response = await result.Content.ReadAsStringAsync();
+            UserModel user = JsonConvert.DeserializeObject<UserModel>(response);
+            return View(user);
         }
 
         #endregion
@@ -161,16 +126,12 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UserModel model)
         {
-            var httpClientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };
-            using (HttpClient client = new(httpClientHandler))
-            {
-                string jsonModel = JsonConvert.SerializeObject(model);
-                var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
-                HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/user/update", content);
-            }
+            HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
+            using HttpClient client = new(httpClientHandler);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("JWTToken"));
+            string jsonModel = JsonConvert.SerializeObject(model);
+            StringContent content = new(jsonModel, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await client.PostAsync("https://bitcoinapi/api/user/update", content);
             return RedirectToAction("Info", "Btc");
         }
 

@@ -95,12 +95,11 @@ namespace BitcoinApi.Controllers
             User user = await _unitOfWork.UserRepository.GetByIdAsync(model.Id);
             User userUpdated = new()
             {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName
             };
-
 
             if (string.IsNullOrEmpty(model.Password))
             {

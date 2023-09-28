@@ -28,7 +28,7 @@ namespace Infrastructure.Services
         {
             BitcoinClient client = new();
             DateTime queryDate = DateTime.Now;
-            Root response = await client.GetBitcoinLatestPrice();
+            Root response = await client.GetBitcoinLatestPriceAsync();
             Bitcoin bitcoin = new()
             {
                 USD = response?.data?.BTC?.quote?.USD?.price,
@@ -36,12 +36,10 @@ namespace Infrastructure.Services
                 QueryDate = queryDate
             };
 
-            using (var scope = _scopeFactory.CreateScope())
-            {
-                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                await unitOfWork.BitcoinRepository.InsertAsync(bitcoin);
-                await unitOfWork.Complete();
-            }
+            using IServiceScope scope = _scopeFactory.CreateScope();
+            IUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+            await unitOfWork.BitcoinRepository.InsertAsync(bitcoin);
+            await unitOfWork.Complete();
 
         }
 

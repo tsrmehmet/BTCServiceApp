@@ -11,15 +11,27 @@ namespace BitcoinApi.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly TokenService _tokenService;
+        #region Fields
 
+        private readonly TokenService _tokenService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public AuthController(TokenService tokenService, IUnitOfWork unitOfWork)
+        #endregion
+
+        #region Constructor
+
+        public AuthController(TokenService tokenService,
+            IUnitOfWork unitOfWork)
         {
             _tokenService = tokenService;
             _unitOfWork = unitOfWork;
         }
+
+        #endregion
+
+        #region Methods
+
+        #region MyRegion
 
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] UserModel model)
@@ -28,16 +40,16 @@ namespace BitcoinApi.Controllers
             if (user is null)
                 return BadRequest(new { message = "Kullanıcı bulunamadı!" });
             string savedPassword = _unitOfWork.EncryptionService.CreatePasswordHash(model.Password, user?.PasswordSalt);
-            if (!user.Password.Equals(savedPassword))
+            if (!user!.Password.Equals(savedPassword))
                 return BadRequest(new { message = "Kullanıcı adı veya şifre hatalı" });
-          
-            //Create JWT token
-            var token = _tokenService.GenerateAccessToken(new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, model.Email)
-        });
 
+            //Create JWT token
+            var token = _tokenService.GenerateAccessToken(new List<Claim> { new Claim(ClaimTypes.Email, model.Email) });
             return Ok(new { token });
         }
+
+        #endregion
+
+        #endregion
     }
 }
