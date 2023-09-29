@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Models;
+using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,14 +15,17 @@ namespace BitcoinApi.Controllers
         #region Fields
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Constructor
 
-        public UserController(IUnitOfWork unitOfWork)
+        public UserController(IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         #endregion
@@ -53,13 +57,8 @@ namespace BitcoinApi.Controllers
         [HttpPost]
         public async Task Create(UserModel model)
         {
-            User user = new()
-            {
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PasswordSalt = _unitOfWork.EncryptionService.CreateSaltKey()
-            };
+            User user = _mapper.Map<User>(model);
+            user.PasswordSalt = _unitOfWork.EncryptionService.CreateSaltKey();
             user.Password = _unitOfWork.EncryptionService.CreatePasswordHash(model.Password, user.PasswordSalt);
             await _unitOfWork.UserRepository.InsertAsync(user);
             await _unitOfWork.Complete();
@@ -73,13 +72,7 @@ namespace BitcoinApi.Controllers
         public async Task<UserModel> Detail()
         {
             User user = await _unitOfWork.UserRepository.GetCurrentUserAsync();
-            return new()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            };
+            return _mapper.Map<UserModel>(user);
         }
 
         #endregion
@@ -93,13 +86,7 @@ namespace BitcoinApi.Controllers
                 return false;
 
             User user = await _unitOfWork.UserRepository.GetByIdAsync(model.Id);
-            User userUpdated = new()
-            {
-                Id = model.Id,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            };
+            User userUpdated = _mapper.Map<User>(model);
 
             if (string.IsNullOrEmpty(model.Password))
             {
