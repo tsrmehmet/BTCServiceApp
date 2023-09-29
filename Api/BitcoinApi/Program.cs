@@ -1,3 +1,4 @@
+using Application.Automapping;
 using Autofac.Core;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +14,7 @@ builder.Services.AddDbContextService();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<BTCService>();
 builder.Services.AddSingleton<TokenService>();
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
