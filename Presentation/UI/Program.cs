@@ -1,11 +1,16 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using UI.Filters;
+using UI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opt => opt.Filters.Add<ValidationFilter>())
+    .AddFluentValidation(conf => conf.RegisterValidatorsFromAssemblyContaining<UserModelValidation>())
+    .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
 
 builder.Services.AddHttpContextAccessor();
 

@@ -1,5 +1,7 @@
 using Application.Automapping;
-using Autofac.Core;
+using Application.Validators;
+using FluentValidation.AspNetCore;
+using Infrastructure.Filters;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -41,6 +43,7 @@ builder.Services.AddAuthorization();
 //Add authentication
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
