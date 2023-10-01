@@ -1,7 +1,4 @@
 using Application.Automapping;
-using Application.Validators;
-using FluentValidation.AspNetCore;
-using Infrastructure.Filters;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
