@@ -1,4 +1,4 @@
-﻿@model UserModel
+﻿@model UserLoginModel
 @{
     ViewData["Title"] = "Giriş Yap";
     Layout = "_LayoutLogin";
@@ -9,6 +9,7 @@
 
     <!-- Login form -->
     <form class="login-form" asp-controller="User" asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
         <div class="card mb-0">
             <div class="card-body">
                 <div class="text-center mb-3">
@@ -21,6 +22,7 @@
 
                 <div class="form-group form-group-feedback form-group-feedback-left">
                     <input type="email" class="form-control" asp-for="Email" placeholder="E-posta" />
+                    <span class="text-danger" asp-validation-for="Email"></span>
                     <div class="form-control-feedback">
                         <i class="icon-user text-muted"></i>
                     </div>
@@ -28,6 +30,7 @@
 
                 <div class="form-group form-group-feedback form-group-feedback-left">
                     <input type="password" class="form-control" asp-for="Password" placeholder="Şifre" />
+                    <span class="text-danger" asp-validation-for="Password"></span>
                     <div class="form-control-feedback">
                         <i class="icon-lock2 text-muted"></i>
                     </div>

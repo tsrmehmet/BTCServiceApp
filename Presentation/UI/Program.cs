@@ -2,14 +2,21 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using UI.Filters;
+using System.Globalization;
 using UI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(opt => opt.Filters.Add<ValidationFilter>())
-    .AddFluentValidation(conf => conf.RegisterValidatorsFromAssemblyContaining<UserModelValidation>())
+builder.Services.AddControllersWithViews()
+    .AddFluentValidation(opt =>
+    {
+        opt.RegisterValidatorsFromAssemblyContaining<UserCreateModelValidation>();
+        opt.RegisterValidatorsFromAssemblyContaining<UserDetailModelValidation>();
+        opt.RegisterValidatorsFromAssemblyContaining<UserLoginModelValidation>();
+        opt.DisableDataAnnotationsValidation = true;
+        opt.ValidatorOptions.LanguageManager.Culture = new CultureInfo("tr-TR");
+    })
     .ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
 
 builder.Services.AddHttpContextAccessor();

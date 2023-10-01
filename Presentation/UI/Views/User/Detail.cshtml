@@ -1,4 +1,4 @@
-﻿@model UserModel
+﻿@model UserDetailModel
 @{
     ViewData["Title"] = "Kullanıcı";
     ViewData["Subtitle"] = "Detay";
@@ -11,6 +11,7 @@
     </div>
     <div class="card-body">
         <form asp-controller="User" asp-action="Update" method="post" class="formValidate">
+            <div asp-validation-summary="ModelOnly"></div>
             @Html.HiddenFor(x => x.Id)
             <div class="form-group row">
                 <label class="col-form-label text-sm-right font-weight-semibold col-sm-2">Ad</label>

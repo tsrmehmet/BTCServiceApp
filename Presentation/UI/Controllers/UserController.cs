@@ -16,7 +16,7 @@ namespace UI.Controllers
 
         #region AuthenticationForApiCall
 
-        private async Task AuthenticationForApiCall(UserModel model)
+        private async Task AuthenticationForApiCall(UserLoginModel model)
         {
             HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
             using HttpClient client = new(httpClientHandler);
@@ -39,13 +39,18 @@ namespace UI.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            return View(new UserModel());
+            return View(new UserLoginModel());
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login(UserModel model)
+        public async Task<IActionResult> Login(UserLoginModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.ToList();
+                return View(model);
+            }
             HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
             using HttpClient client = new(httpClientHandler);
             string jsonModel = JsonConvert.SerializeObject(model);
@@ -89,13 +94,19 @@ namespace UI.Controllers
         [AllowAnonymous]
         public IActionResult Create()
         {
-            return View(new UserModel());
+            return View(new UserCreateModel());
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Create(UserModel model)
+        public async Task<IActionResult> Create(UserCreateModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.ToList();
+                return View(model);
+            }
+                
             HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
             using HttpClient client = new(httpClientHandler);
             string jsonModel = JsonConvert.SerializeObject(model);
@@ -108,14 +119,16 @@ namespace UI.Controllers
 
         #region Detail
 
-        public async Task<IActionResult> Detail()
+        public async Task<IActionResult> Detail(UserDetailModel model)
         {
+            if(model.Id != 0)
+                return View(model);
             HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
             using HttpClient client = new(httpClientHandler);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("JWTToken"));
             HttpResponseMessage result = await client.GetAsync("https://bitcoinapi/api/user/detail");
             string response = await result.Content.ReadAsStringAsync();
-            UserModel user = JsonConvert.DeserializeObject<UserModel>(response);
+            UserDetailModel user = JsonConvert.DeserializeObject<UserDetailModel>(response);
             return View(user);
         }
 
@@ -124,8 +137,13 @@ namespace UI.Controllers
         #region Update
 
         [HttpPost]
-        public async Task<IActionResult> Update(UserModel model)
+        public async Task<IActionResult> Update(UserDetailModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.ToList();
+                return RedirectToAction("Detail", model);
+            }
             HttpClientHandler httpClientHandler = new() { ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true };
             using HttpClient client = new(httpClientHandler);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("JWTToken"));

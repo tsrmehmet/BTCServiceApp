@@ -34,16 +34,16 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
       POSTGRES_DB: BitcoinApi
+
     ports:
       - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
         - main
         
-
-volumes:
-  postgres_data:  
+ 
 
 networks:
   main:
