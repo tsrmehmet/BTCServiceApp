@@ -29,7 +29,15 @@
 
 <script type="text/javascript">
 
-    $(function drawChart() {
+    document.addEventListener('DOMContentLoaded', function () {
+        drawChart();
+
+        setInterval(function () {
+            drawChart();
+        }, 60000); // 60000 milisaniye = 1 dk
+    });
+
+    function drawChart() {
         var chartName = "chart";
         var ctx = document.getElementById(chartName).getContext('2d');
         var myChart;
@@ -133,5 +141,5 @@
             });
         }
         CallService(3);
-    });
+    }
 </script>  
