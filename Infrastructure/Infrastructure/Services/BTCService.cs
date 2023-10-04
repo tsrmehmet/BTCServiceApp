@@ -40,7 +40,6 @@ namespace Infrastructure.Services
             IUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
             await unitOfWork.BitcoinRepository.InsertAsync(bitcoin);
             await unitOfWork.Complete();
-
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

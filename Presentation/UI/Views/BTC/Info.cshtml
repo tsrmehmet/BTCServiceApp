@@ -28,8 +28,8 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <script type="text/javascript">
-    // Seçilen zaman aralığı değiştiğinde grafiği güncelleyin
-    $(function () {
+
+    $(function drawChart() {
         var chartName = "chart";
         var ctx = document.getElementById(chartName).getContext('2d');
         var myChart;
@@ -98,9 +98,8 @@
                     }]
                 }
             };
-            // Grafiği güncelleyin
             if (myChart) {
-                myChart.destroy(); // Önceki grafiği temizleyin
+                myChart.destroy();
             }
             myChart = new Chart(ctx, {
                 options: options,
@@ -117,12 +116,10 @@
 
         function CallService(selectedTimeRange) {
             $.ajax({
-                url: '/BTC/InfoForAjaxCall', // Verileri alacak API veya Action'ın URL'sini belirtin
+                url: '/BTC/InfoForAjaxCall',
                 method: 'GET',
                 data: { timeRageDay: selectedTimeRange },
                 success: function (response) {
-                    // AJAX isteği başarılı olduğunda yeni verileri kullanarak grafiği güncelleyin
-
                     XLabels = response.labelValues;
                     YValues = response.priceValues;
                     updateChart();
