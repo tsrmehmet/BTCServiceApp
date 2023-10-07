@@ -6,20 +6,16 @@ services:
     build:
       context: .
       dockerfile: Presentation/UI/Dockerfile
-    links:
-       - bitcoinapi
     networks:
       - main
     ports:
-      - 7198:7198
+      - 7198:443
 
   bitcoinapi:
     image: ${DOCKER_REGISTRY-}bitcoinapi
     build:
       context: .
       dockerfile: Api/BitcoinApi/Dockerfile
-    links:
-       - postgres
     networks:
       - main
     ports:
@@ -34,7 +30,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
       POSTGRES_DB: BitcoinApi
-
     ports:
       - 5432:5432
     volumes:
