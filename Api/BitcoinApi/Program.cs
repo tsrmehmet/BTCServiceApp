@@ -1,4 +1,6 @@
 using Application.Automapping;
+using Autofac.Core;
+using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +16,19 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<BTCService>();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
+// Add SignalR
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
+            builder =>
+            {
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(_ => true);
+            }));
+builder.Services.AddSignalR();
+// Add SignalR
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -53,6 +68,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.UseHttpsRedirection();
 

@@ -9,6 +9,10 @@
     <title>Line</title>
 </head>
 <body>
+    <div class="alert alert-success" id="success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Tablo güncellendi.</strong>
+    </div>
     <select id="timeRange">
         <option value="3">Son 3 Saat</option>
         <option value="6">Son 6 Saat</option>
@@ -22,14 +26,38 @@
             <canvas id="chart" style="width:100%; height:500px"></canvas>
         </div>
     </div>
+   
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
 
 <script type="text/javascript">
-    // Seçilen zaman aralığı değiştiğinde grafiği güncelleyin
-    $(function () {
+    $("#success-alert").hide();
+    var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7235/notificationHub").build();
+
+    connection.on("ReceiveNotification", function (user, message) {
+        drawChart();
+        $(document).ready(function () {
+            // show the alert
+            setTimeout(function () {
+                $("#success-alert").fadeTo(4000, 500).slideUp(500, function () {
+                    $("#success-alert").slideUp(500);
+                });
+            }, 0);
+        });
+        console.log("tablo güncellendi");
+    });
+
+    connection.start().then(function () {
+        drawChart();
+ 
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    function drawChart() {
         var chartName = "chart";
         var ctx = document.getElementById(chartName).getContext('2d');
         var myChart;
@@ -98,9 +126,8 @@
                     }]
                 }
             };
-            // Grafiği güncelleyin
             if (myChart) {
-                myChart.destroy(); // Önceki grafiği temizleyin
+                myChart.destroy();
             }
             myChart = new Chart(ctx, {
                 options: options,
@@ -117,12 +144,10 @@
 
         function CallService(selectedTimeRange) {
             $.ajax({
-                url: '/BTC/InfoForAjaxCall', // Verileri alacak API veya Action'ın URL'sini belirtin
+                url: '/BTC/InfoForAjaxCall',
                 method: 'GET',
                 data: { timeRageDay: selectedTimeRange },
                 success: function (response) {
-                    // AJAX isteği başarılı olduğunda yeni verileri kullanarak grafiği güncelleyin
-
                     XLabels = response.labelValues;
                     YValues = response.priceValues;
                     updateChart();
@@ -136,5 +161,5 @@
             });
         }
         CallService(3);
-    });
+    }
 </script>  

@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Clients;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,14 +13,17 @@ namespace Infrastructure.Services
         #region Fields
 
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
         #endregion
 
         #region Constructor
 
-        public BTCService(IServiceScopeFactory scopeFactory)
+        public BTCService(IServiceScopeFactory scopeFactory,
+            IHubContext<NotificationHub> hubContext)
         {
             _scopeFactory = scopeFactory;
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -40,7 +44,7 @@ namespace Infrastructure.Services
             IUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
             await unitOfWork.BitcoinRepository.InsertAsync(bitcoin);
             await unitOfWork.Complete();
-
+            await _hubContext.Clients.All.SendAsync("ReceiveNotification", "Tabloda değişiklik oldu.");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

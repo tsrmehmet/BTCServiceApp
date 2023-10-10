@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Models;
+using AutoMapper;
 using BitcoinApi.Controllers;
 using Domain.Entities;
 using Domain.Enums;
@@ -13,6 +14,7 @@ namespace BitcoinApi.Test
 
         private readonly Mock<IUnitOfWork> _moqUnitOfWork;
         private readonly UserController _userController;
+        private readonly IMapper _mapper;
         private User user;
         private UserModel userModel;
         private User nullUser;
@@ -24,7 +26,7 @@ namespace BitcoinApi.Test
         public ApiUserControllerTest()
         {
             _moqUnitOfWork = new Mock<IUnitOfWork>();
-            _userController = new UserController(_moqUnitOfWork.Object);
+            _userController = new UserController(_moqUnitOfWork.Object, _mapper!);
             user = new() { Id = 3, Email = "mahmut.yaman@hotmail.com", FirstName = "Mahmut", LastName = "Yaman", Password = "123456", PasswordSalt = "AsdDsa", CreatedDate = DateTime.UtcNow, Status = DataStatus.Inserted };
             userModel = new() { Id = 3, Email = "mahmut.yaman@hotmail.com", FirstName = "Mahmut", LastName = "Yaman", Password = "123456", PasswordSalt = "AsdDsa", CreatedDate = DateTime.UtcNow, Status = DataStatus.Inserted };
         }
